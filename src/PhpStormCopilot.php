@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Revolution\Laravel\Boost;
 
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Process;
 use Laravel\Boost\Contracts\Agent;
 use Laravel\Boost\Contracts\McpClient;
 use Laravel\Boost\Install\CodeEnvironment\CodeEnvironment;
@@ -30,7 +32,6 @@ class PhpStormCopilot extends CodeEnvironment implements Agent, McpClient
      */
     public function systemDetectionConfig(Platform $platform): array
     {
-        // 実機で確認済：Darwin(macOS), Windows
         return match ($platform) {
             Platform::Darwin => [
                 'paths' => [
@@ -88,18 +89,56 @@ class PhpStormCopilot extends CodeEnvironment implements Agent, McpClient
 
     public function mcpConfigPath(): string
     {
-        $is_wsl = ! empty(getenv('WSL_DISTRO_NAME'));
-
-        if ($is_wsl) {
-            return '/mnt/c/Users/'.getenv('USER').'/AppData/Local/github-copilot/intellij/mcp.json';
-        }
-
         $platform = Platform::current();
 
-        // 実機で確認済：Darwin(macOS), Windows
         return match ($platform) {
             Platform::Darwin, Platform::Linux => '~/.config/github-copilot/intellij/mcp.json',
             Platform::Windows => '%LOCALAPPDATA%\\github-copilot\\intellij\\mcp.json',
         };
+    }
+
+    protected function installFileMcp(string $key, string $command, array $args = [], array $env = []): bool
+    {
+        $is_wsl = ! empty(getenv('WSL_DISTRO_NAME'));
+
+        if ($is_wsl) {
+            return $this->installMcpViaWsl($key, $command, $args);
+        }
+
+        return parent::installFileMcp($key, $command, $args, $env);
+    }
+
+    protected function installMcpViaWsl(string $name, string $command, array $args): bool
+    {
+        $username = getenv('USER');
+        $winPath = "C:\\Users\\{$username}\\AppData\\Local\\github-copilot\\intellij";
+        $filePath = "$winPath\\mcp.json";
+
+        // Read existing config via PowerShell
+        $readCommand = "powershell.exe -NoProfile -Command \"if (Test-Path '$filePath') { Get-Content '$filePath' -Raw } else { '{}' }\"";
+        $result = Process::run($readCommand);
+
+        $config = json_decode($result->output() ?: '{}', true) ?: [];
+
+        if (! isset($config[$this->mcpConfigKey()])) {
+            $config[$this->mcpConfigKey()] = [];
+        }
+
+        $config[$this->mcpConfigKey()][$name] = [
+            'command' => $command,
+            'args' => $args,
+        ];
+
+        $jsonContent = json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_FORCE_OBJECT);
+        $escapedJson = str_replace('"', '`"', $jsonContent);
+
+        // Create directory and write file via PowerShell
+        $writeCommand = 'powershell.exe -NoProfile -Command "'
+            ."New-Item -ItemType Directory -Path '$winPath' -Force | Out-Null; "
+            ."Set-Content -Path '$filePath' -Value \\\"$escapedJson\\\" -Encoding UTF8\"";
+
+        $writeResult = Process::run($writeCommand);
+
+        return $writeResult->successful();
     }
 }
