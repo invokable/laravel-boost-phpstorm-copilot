@@ -44,6 +44,8 @@ class PhpStormCopilot extends CodeEnvironment implements Agent, McpClient
                     '/opt/PhpStorm*',
                     '/usr/local/bin/phpstorm',
                     '~/.local/share/JetBrains/Toolbox/apps/PhpStorm/ch-*',
+                    // WSL
+                    '/mnt/c/Users/*/AppData/Local/github-copilot',
                 ],
             ],
             Platform::Windows => [
