@@ -1,0 +1,66 @@
+{
+    "name": "revolution/laravel-boost-phpstorm-copilot",
+    "description": "Laravel Boost Custom CodeEnvironment for PhpStorm with GitHub Copilot plugin",
+    "keywords": [
+        "laravel",
+        "boost",
+        "phpstorm",
+        "github-copilot"
+    ],
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": "^8.3",
+        "illuminate/support": "^12.30",
+        "laravel/boost": "^1.6"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.25",
+        "orchestra/testbench": "^10.6",
+        "pestphp/pest": "^4.1",
+        "mockery/mockery": "^1.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Revolution\\Laravel\\Boost\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "puklipo",
+            "email": "pcs.engineer.team@gmail.com"
+        },
+        {
+            "name": "kawax",
+            "email": "kawaxbiz@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Revolution\\Laravel\\Boost\\PhpStormCopilotServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "stable",
+    "scripts": {
+        "test": "pest",
+        "test:coverage": "pest --coverage --coverage-clover build/logs/clover.xml",
+        "lint": [
+            "pint"
+        ],
+        "test:lint": [
+            "pint --test"
+        ]
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
+}

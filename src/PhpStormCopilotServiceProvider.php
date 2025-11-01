@@ -1,0 +1,21 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Revolution\Laravel\Boost;
+
+use Illuminate\Support\ServiceProvider;
+use Laravel\Boost\Boost;
+
+class PhpStormCopilotServiceProvider extends ServiceProvider
+{
+    public function register(): void
+    {
+        //
+    }
+
+    public function boot(): void
+    {
+        Boost::registerCodeEnvironment('phpstorm-copilot', PhpStormCopilot::class);
+    }
+}
