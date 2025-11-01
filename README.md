@@ -8,7 +8,9 @@
 
 ## Supported OS
 - macOS
-- Windows (For WSL, please use [laravel-boost-copilot-cli](https://github.com/invokable/laravel-boost-copilot-cli))
+- Windows
+ - For WSL, please use [laravel-boost-copilot-cli](https://github.com/invokable/laravel-boost-copilot-cli)
+ - It supports an environment where PhpStorm runs on native Windows and only the `php` command is used in WSL.
 - Linux
 
 ## Installation
