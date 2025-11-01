@@ -88,6 +88,12 @@ class PhpStormCopilot extends CodeEnvironment implements Agent, McpClient
 
     public function mcpConfigPath(): string
     {
+        $is_wsl = ! empty(getenv('WSL_DISTRO_NAME'));
+
+        if ($is_wsl) {
+            return '/mnt/c/Users/'.getenv('USER').'/AppData/Local/github-copilot/intellij/mcp.json';
+        }
+
         $platform = Platform::current();
 
         // 実機で確認済：Darwin(macOS), Windows
