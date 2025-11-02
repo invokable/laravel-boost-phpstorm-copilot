@@ -79,8 +79,10 @@ class PhpStormCopilot extends CodeEnvironment implements McpClient
     {
         $platform = Platform::current();
 
+        $home = getenv('HOME');
+
         return match ($platform) {
-            Platform::Darwin, Platform::Linux => '~/.config/github-copilot/intellij/mcp.json',
+            Platform::Darwin, Platform::Linux => $home.'/.config/github-copilot/intellij/mcp.json',
             Platform::Windows => '%LOCALAPPDATA%\\github-copilot\\intellij\\mcp.json',
         };
     }
