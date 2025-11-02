@@ -15,6 +15,8 @@
 
 This package supports WSL environments where PhpStorm runs on native Windows and PHP runs in WSL. This is a common development setup that provides Windows IDE features with Linux development environment.
 
+> **Note**: "Remote development" running PhpStorm within WSL is not supported.
+
 #### Requirements for WSL
 - `wslu` package must be installed in WSL
 - Check if installed: `wslvar -v`
