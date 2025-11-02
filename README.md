@@ -8,11 +8,36 @@
 
 ## Supported OS
 - macOS
-- Windows
-  - For WSL, please use [laravel-boost-copilot-cli](https://github.com/invokable/laravel-boost-copilot-cli)
-  - It supports an environment where PhpStorm runs on native Windows and only the `php` command is used in WSL.
-  - WSL requires `wslu`. If you don't have the command, run `wslvar -v` and install `wslu` with `sudo apt install wslu`.
+- Windows (Native Windows)
 - Linux
+
+### WSL (Windows Subsystem for Linux)
+
+This package supports WSL environments where PhpStorm runs on native Windows and PHP runs in WSL. This is a common development setup that provides Windows IDE features with Linux development environment.
+
+#### Requirements for WSL
+- `wslu` package must be installed in WSL
+- Check if installed: `wslvar -v`
+- Install if needed: `sudo apt install wslu`
+
+#### How it works
+1. **Detection**: Automatically detects WSL environment by checking `WSL_DISTRO_NAME` environment variable
+2. **Username Resolution**: Uses `wslvar USERNAME` to get Windows username (WSL and Windows usernames may differ)
+3. **File Writing**: Writes MCP config to Windows side via PowerShell commands
+   - Creates temporary file in Windows `%TEMP%` directory
+   - Uses Base64 encoding to safely transfer JSON content
+   - Copies to final location: `%LOCALAPPDATA%\github-copilot\intellij\mcp.json`
+4. **Path Handling**: Converts WSL paths to Windows paths for absolute command and artisan paths
+
+#### Troubleshooting WSL
+- Ensure `wslu` is installed and `wslvar` command works
+- Check that PowerShell is accessible from WSL with `powershell.exe -Command "Write-Output 'test'"`
+- Verify Windows username with `wslvar USERNAME`
+- If MCP config file is not created, check Windows directory permissions
+
+#### Alternative for WSL
+If you encounter issues with WSL setup, consider using [laravel-boost-copilot-cli](https://github.com/invokable/laravel-boost-copilot-cli) which uses a different approach better suited for some WSL configurations.
+
 
 ## Installation
 
