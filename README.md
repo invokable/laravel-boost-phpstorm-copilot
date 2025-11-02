@@ -1,5 +1,9 @@
 # Laravel Boost Custom CodeEnvironment for PhpStorm with GitHub Copilot plugin
 
+[![tests](https://github.com/invokable/laravel-boost-phpstorm-copilot/actions/workflows/tests.yml/badge.svg)](https://github.com/invokable/laravel-boost-phpstorm-copilot/actions/workflows/tests.yml)
+
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/invokable/laravel-boost-phpstorm-copilot)
+
 ## Requirements
 - PHP >= 8.3
 - Laravel >= 12.x
