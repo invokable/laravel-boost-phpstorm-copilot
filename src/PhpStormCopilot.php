@@ -129,22 +129,14 @@ class PhpStormCopilot extends CodeEnvironment implements McpClient
 
         $jsonContent = json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 
-        // Create temp file in Windows temp directory via PowerShell
-        $createTempCommand = 'powershell.exe -NoProfile -Command "'
-            .'$tempFile = [System.IO.Path]::GetTempFileName(); '
-            .'Write-Output $tempFile"';
+        // Use Windows TEMP path directly
+        $tempFileName = 'mcp_'.uniqid().'.json';
+        $winTempPath = "C:\\Users\\{$username}\\AppData\\Local\\Temp\\{$tempFileName}";
 
-        $tempResult = Process::run($createTempCommand);
-        $winTempPath = trim($tempResult->output());
-
-        if (empty($winTempPath)) {
-            return false;
-        }
-
-        // Write JSON content to temp file via PowerShell
-        $escapedJson = str_replace("'", "''", $jsonContent);
+        // Write JSON content to temp file via PowerShell with Base64 encoding
+        $base64Content = base64_encode($jsonContent);
         $writeTempCommand = 'powershell.exe -NoProfile -Command "'
-            ."Set-Content -Path '{$winTempPath}' -Value '{$escapedJson}' -Encoding UTF8\"";
+            ."[System.IO.File]::WriteAllBytes('{$winTempPath}', [System.Convert]::FromBase64String('{$base64Content}'))\"";
 
         $writeTempResult = Process::run($writeTempCommand);
 
