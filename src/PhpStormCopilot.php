@@ -98,8 +98,15 @@ class PhpStormCopilot extends CodeEnvironment implements McpClient
 
     protected function installMcpViaWsl(string $name, string $command, array $args): bool
     {
-        $username = getenv('USER');
-        $winPath = "C:\\Users\\{$username}\\AppData\\Local\\github-copilot\\intellij";
+        // Get Windows username via wslvar command
+        $usernameResult = Process::run('wslvar USERNAME');
+        $username = trim($usernameResult->output());
+
+        if (empty($username)) {
+            return false;
+        }
+
+        $winPath = "C:\\Users\\$username\\AppData\\Local\\github-copilot\\intellij";
         $filePath = "$winPath\\mcp.json";
 
         // Read existing config via PowerShell
