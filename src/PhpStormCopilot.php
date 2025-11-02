@@ -106,13 +106,12 @@ class PhpStormCopilot extends CodeEnvironment implements McpClient
             return false;
         }
 
-        $winPath = "C:\\Users\\$username\\AppData\\Local\\github-copilot\\intellij";
-        $filePath = "$winPath\\mcp.json";
+        $winPath = "C:\\Users\\{$username}\\AppData\\Local\\github-copilot\\intellij";
+        $filePath = "{$winPath}\\mcp.json";
 
         // Read existing config via PowerShell
-        $readCommand = "powershell.exe -NoProfile -Command \"if (Test-Path '$filePath') { Get-Content '$filePath' -Raw } else { '{}' }\"";
+        $readCommand = "powershell.exe -NoProfile -Command \"if (Test-Path '{$filePath}') { Get-Content '{$filePath}' -Raw } else { '{}' }\"";
         $result = Process::run($readCommand);
-        info($readCommand);
 
         $config = json_decode($result->output() ?: '{}', true) ?: [];
 
@@ -126,16 +125,24 @@ class PhpStormCopilot extends CodeEnvironment implements McpClient
         ];
 
         $jsonContent = json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_FORCE_OBJECT);
-        $escapedJson = str_replace('"', '`"', $jsonContent);
 
-        // Create directory and write file via PowerShell
+        // Create temp file in WSL
+        $tempFile = tempnam(sys_get_temp_dir(), 'mcp_');
+        file_put_contents($tempFile, $jsonContent);
+
+        // Convert WSL path to Windows path
+        $wslPathResult = Process::run("wslpath -w '{$tempFile}'");
+        $winTempPath = trim($wslPathResult->output());
+
+        // Create directory and copy file via PowerShell
         $writeCommand = 'powershell.exe -NoProfile -Command "'
-            ."New-Item -ItemType Directory -Path '$winPath' -Force | Out-Null; "
-            ."Set-Content -Path '$filePath' -Value \\\"$escapedJson\\\" -Encoding UTF8\"";
-
-        info($writeCommand);
+            ."New-Item -ItemType Directory -Path '{$winPath}' -Force | Out-Null; "
+            ."Copy-Item -Path '{$winTempPath}' -Destination '{$filePath}' -Force\"";
 
         $writeResult = Process::run($writeCommand);
+
+        // Clean up temp file
+        unlink($tempFile);
 
         return $writeResult->successful();
     }
