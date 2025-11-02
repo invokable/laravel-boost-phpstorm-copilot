@@ -113,6 +113,10 @@ System-wide MCP config file contains absolute path to Laravel project:
     "laravel-boost": {
       "command": "/absolute/path/to/php",
       "args": ["/absolute/path/to/laravel/artisan", "boost:mcp"]
+    },
+    "existing-server": {
+      "url": "https://example.com/mcp",
+      "headers": {}
     }
   }
 }
