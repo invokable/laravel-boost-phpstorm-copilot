@@ -112,6 +112,7 @@ class PhpStormCopilot extends CodeEnvironment implements McpClient
         // Read existing config via PowerShell
         $readCommand = "powershell.exe -NoProfile -Command \"if (Test-Path '$filePath') { Get-Content '$filePath' -Raw } else { '{}' }\"";
         $result = Process::run($readCommand);
+        info($readCommand);
 
         $config = json_decode($result->output() ?: '{}', true) ?: [];
 
@@ -131,6 +132,8 @@ class PhpStormCopilot extends CodeEnvironment implements McpClient
         $writeCommand = 'powershell.exe -NoProfile -Command "'
             ."New-Item -ItemType Directory -Path '$winPath' -Force | Out-Null; "
             ."Set-Content -Path '$filePath' -Value \\\"$escapedJson\\\" -Encoding UTF8\"";
+
+        info($writeCommand);
 
         $writeResult = Process::run($writeCommand);
 
