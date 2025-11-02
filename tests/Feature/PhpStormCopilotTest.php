@@ -19,13 +19,6 @@ test('PhpStormCopilot returns correct display name', function (): void {
     expect($phpStormCopilot->displayName())->toBe('PhpStorm with GitHub Copilot');
 });
 
-test('PhpStormCopilot returns correct guidelines path', function (): void {
-    $strategyFactory = Mockery::mock(DetectionStrategyFactory::class);
-    $phpStormCopilot = new PhpStormCopilot($strategyFactory);
-
-    expect($phpStormCopilot->guidelinesPath())->toBe('.github/copilot-instructions.md');
-});
-
 test('PhpStormCopilot returns correct MCP config key', function (): void {
     $strategyFactory = Mockery::mock(DetectionStrategyFactory::class);
     $phpStormCopilot = new PhpStormCopilot($strategyFactory);

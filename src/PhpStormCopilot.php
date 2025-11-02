@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace Revolution\Laravel\Boost;
 
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Process;
-use Laravel\Boost\Contracts\Agent;
 use Laravel\Boost\Contracts\McpClient;
 use Laravel\Boost\Install\CodeEnvironment\CodeEnvironment;
 use Laravel\Boost\Install\Enums\Platform;
 
-class PhpStormCopilot extends CodeEnvironment implements Agent, McpClient
+class PhpStormCopilot extends CodeEnvironment implements McpClient
 {
     public bool $useAbsolutePathForMcp = true;
 
@@ -70,16 +68,6 @@ class PhpStormCopilot extends CodeEnvironment implements Agent, McpClient
         return [
             'files' => ['.github/copilot-instructions.md'],
         ];
-    }
-
-    /**
-     * Get the file path where AI guidelines should be written.
-     *
-     * @return string The relative or absolute path to the guideline file
-     */
-    public function guidelinesPath(): string
-    {
-        return '.github/copilot-instructions.md';
     }
 
     public function mcpConfigKey(): string

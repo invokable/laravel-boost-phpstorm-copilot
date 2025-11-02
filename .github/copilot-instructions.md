@@ -18,9 +18,9 @@ This is a Laravel package that provides custom CodeEnvironment integration for P
 ### Core Components
 
 1. **PhpStormCopilot.php**: Main CodeEnvironment implementation
-   - Implements `Agent` and `McpClient` interfaces
+   - Implements `McpClient` interfaces
    - Handles detection, configuration, and MCP installation
-   - Generates `.github/copilot-instructions.md` and system-wide MCP config file
+   - Generates system-wide MCP config file
 
 2. **PhpStormCopilotServiceProvider.php**: Laravel service provider
    - Registers the PhpStormCopilot CodeEnvironment with Laravel Boost
@@ -62,7 +62,6 @@ This is a Laravel package that provides custom CodeEnvironment integration for P
    - Handle system-wide MCP config file paths per OS
 
 3. **Configuration Files**:
-   - `.github/copilot-instructions.md`: AI guidelines (project-local)
    - System-wide MCP config file locations:
      - macOS, Linux: `~/.config/github-copilot/intellij/mcp.json`
      - Windows: `%LOCALAPPDATA%\github-copilot\intellij\mcp.json`
@@ -89,7 +88,6 @@ This is a Laravel package that provides custom CodeEnvironment integration for P
 
 #### Integration Tests
 - Test with `php artisan boost:install` command in a Laravel project
-- Verify `.github/copilot-instructions.md` generation
 - Verify system-wide MCP config file creation at correct location
 - Test with `php artisan boost:update` command when switching projects
 - Test in PhpStorm with GitHub Copilot plugin enabled
@@ -104,7 +102,6 @@ This is a Laravel package that provides custom CodeEnvironment integration for P
 
 ### Laravel Boost Integration Points
 - Extends `CodeEnvironment` base class
-- Implements `Agent` interface for PhpStorm and plugin detection
 - Implements `McpClient` interface for MCP server setup
 
 ### MCP Configuration Format
