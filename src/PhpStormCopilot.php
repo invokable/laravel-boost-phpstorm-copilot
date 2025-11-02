@@ -129,25 +129,38 @@ class PhpStormCopilot extends CodeEnvironment implements McpClient
 
         $jsonContent = json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 
-        // Create temp file in WSL
-        $tempFile = tempnam(sys_get_temp_dir(), 'mcp_');
-        file_put_contents($tempFile, $jsonContent);
+        // Create temp file in Windows temp directory via PowerShell
+        $createTempCommand = 'powershell.exe -NoProfile -Command "'
+            .'$tempFile = [System.IO.Path]::GetTempFileName(); '
+            .'Write-Output $tempFile"';
 
-        // Convert WSL path to Windows path
-        $wslPathResult = Process::run("wslpath -w '{$tempFile}'");
-        $winTempPath = trim($wslPathResult->output());
+        $tempResult = Process::run($createTempCommand);
+        $winTempPath = trim($tempResult->output());
+
+        if (empty($winTempPath)) {
+            return false;
+        }
+
+        // Write JSON content to temp file via PowerShell
+        $escapedJson = str_replace("'", "''", $jsonContent);
+        $writeTempCommand = 'powershell.exe -NoProfile -Command "'
+            ."Set-Content -Path '{$winTempPath}' -Value '{$escapedJson}' -Encoding UTF8\"";
+
+        $writeTempResult = Process::run($writeTempCommand);
+
+        if (! $writeTempResult->successful()) {
+            return false;
+        }
 
         // Create directory and copy file via PowerShell
-        $writeCommand = 'powershell.exe -NoProfile -Command "'
+        $copyCommand = 'powershell.exe -NoProfile -Command "'
             ."New-Item -ItemType Directory -Path '{$winPath}' -Force | Out-Null; "
-            ."Copy-Item -Path '{$winTempPath}' -Destination '{$filePath}' -Force\"";
+            ."Copy-Item -Path '{$winTempPath}' -Destination '{$filePath}' -Force; "
+            ."Remove-Item -Path '{$winTempPath}' -Force\"";
 
-        $writeResult = Process::run($writeCommand);
+        $copyResult = Process::run($copyCommand);
 
-        // Clean up temp file
-        unlink($tempFile);
-
-        return $writeResult->successful();
+        return $copyResult->successful();
     }
 
     /**
