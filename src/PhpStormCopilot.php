@@ -124,7 +124,10 @@ class PhpStormCopilot extends CodeEnvironment implements McpClient
             'args' => $args,
         ];
 
-        $jsonContent = json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_FORCE_OBJECT);
+        // Remove empty arrays from existing config to avoid compatibility issues
+        $config = $this->removeEmptyArrays($config);
+
+        $jsonContent = json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 
         // Create temp file in WSL
         $tempFile = tempnam(sys_get_temp_dir(), 'mcp_');
@@ -145,5 +148,24 @@ class PhpStormCopilot extends CodeEnvironment implements McpClient
         unlink($tempFile);
 
         return $writeResult->successful();
+    }
+
+    /**
+     * Recursively remove empty arrays from config to avoid compatibility issues.
+     * Some MCP tools fail when encountering empty arrays (e.g., "headers": []).
+     */
+    protected function removeEmptyArrays(array $data): array
+    {
+        foreach ($data as $key => $value) {
+            if (is_array($value)) {
+                if (empty($value)) {
+                    unset($data[$key]);
+                } else {
+                    $data[$key] = $this->removeEmptyArrays($value);
+                }
+            }
+        }
+
+        return $data;
     }
 }

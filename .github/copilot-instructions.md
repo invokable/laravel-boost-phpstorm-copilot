@@ -115,14 +115,13 @@ System-wide MCP config file contains absolute path to Laravel project:
       "args": ["/absolute/path/to/laravel/artisan", "boost:mcp"]
     },
     "existing-server": {
-      "url": "https://example.com/mcp",
-      "headers": {}
+      "url": "https://example.com/mcp"
     }
   }
 }
 ```
 
-**Important**: When encoding the configuration to JSON, always use `JSON_FORCE_OBJECT` flag to ensure empty arrays are serialized as objects (`{}`). Some MCP tools may fail when encountering empty arrays (`[]`) in fields like `headers`. This ensures compatibility with existing MCP server configurations.
+**Important**: Empty arrays in the configuration are automatically removed to ensure compatibility. Some MCP tools fail when encountering empty arrays (e.g., `"headers": []`), but work correctly when the field is absent entirely. The implementation recursively removes all empty arrays before writing the configuration file.
 
 ## Important Constraints
 
@@ -146,7 +145,7 @@ System-wide MCP config file contains absolute path to Laravel project:
 1. Edit `installFileMcp()` method for file-based MCP installation
 2. Handle OS-specific config file paths correctly
 3. Use absolute paths for Laravel project location
-4. Always use `JSON_FORCE_OBJECT` flag when encoding JSON to ensure empty arrays become objects
+4. Remove empty arrays from configuration before writing to ensure compatibility
 5. Validate JSON format before writing
 6. Add test cases for the new configuration
 7. Test with temporary directories in tests
