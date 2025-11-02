@@ -11,6 +11,7 @@
 - Windows
   - For WSL, please use [laravel-boost-copilot-cli](https://github.com/invokable/laravel-boost-copilot-cli)
   - It supports an environment where PhpStorm runs on native Windows and only the `php` command is used in WSL.
+  - WSL requires `wslu`. If you don't have the command, run `wslvar -v` and install `wslu` with `sudo apt install wslu`.
 - Linux
 
 ## Installation
