@@ -122,6 +122,8 @@ System-wide MCP config file contains absolute path to Laravel project:
 }
 ```
 
+**Important**: When encoding the configuration to JSON, always use `JSON_FORCE_OBJECT` flag to ensure empty arrays are serialized as objects (`{}`). Some MCP tools may fail when encountering empty arrays (`[]`) in fields like `headers`. This ensures compatibility with existing MCP server configurations.
+
 ## Important Constraints
 
 1. **Platform Support**: Native Windows is supported (macOS, Linux, Windows)
@@ -141,12 +143,13 @@ System-wide MCP config file contains absolute path to Laravel project:
 4. Run `composer test` to verify
 
 ### Modifying MCP Configuration
-1. Edit `installRegistryMcp()` method
+1. Edit `installFileMcp()` method for file-based MCP installation
 2. Handle OS-specific config file paths correctly
 3. Use absolute paths for Laravel project location
-4. Validate JSON format before writing
-5. Add test cases for the new configuration
-6. Test with temporary directories in tests
+4. Always use `JSON_FORCE_OBJECT` flag when encoding JSON to ensure empty arrays become objects
+5. Validate JSON format before writing
+6. Add test cases for the new configuration
+7. Test with temporary directories in tests
 
 ### Adding New Features
 1. Write tests first (TDD approach)
