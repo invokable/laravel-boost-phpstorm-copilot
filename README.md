@@ -15,6 +15,8 @@
 - Windows (Native Windows)
 - Linux
 
+> **Note**: Laravel Sail is not yet supported.
+
 ### WSL (Windows Subsystem for Linux)
 
 This package supports WSL environments where PhpStorm runs on native Windows and PHP runs in WSL. This is a common development setup that provides Windows IDE features with Linux development environment.
