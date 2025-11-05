@@ -7,7 +7,7 @@
 ## Requirements
 - PHP >= 8.3
 - Laravel >= 12.x
-- [Laravel Boost](https://github.com/laravel/boost) >= 1.6
+- [Laravel Boost](https://github.com/laravel/boost) >= 1.7
 - [GitHub Copilot plugin](https://plugins.jetbrains.com/plugin/17718-github-copilot) installed in PhpStorm
 
 ## Supported OS
@@ -15,7 +15,7 @@
 - Windows (Native Windows)
 - Linux
 
-> **Note**: Laravel Sail is not yet supported.
+> **Note**: It also supports Laravel Sail. Before use, start it with `vendor/bin/sail up -d`.
 
 ### WSL (Windows Subsystem for Linux)
 

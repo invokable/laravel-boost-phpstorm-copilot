@@ -8,7 +8,7 @@ This is a Laravel package that provides custom CodeEnvironment integration for P
 
 - **Language**: PHP 8.3+
 - **Framework**: Laravel 12.x+
-- **Dependencies**: Laravel Boost 1.6+
+- **Dependencies**: Laravel Boost 1.7+
 - **Target Platforms**: macOS, Linux, Windows (Native Windows supported)
 - **Testing**: Pest PHP 4.x
 - **Code Quality**: Laravel Pint (PSR-12)

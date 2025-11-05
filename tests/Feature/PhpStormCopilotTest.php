@@ -88,3 +88,115 @@ test('PhpStormCopilot paths remain absolute regardless of forceAbsolutePath para
 
     expect($phpStormCopilot->getArtisanPath(false))->toBe($artisanPath);
 });
+
+test('transformMcpCommandForWsl handles Sail with relative path', function (): void {
+    $strategyFactory = Mockery::mock(DetectionStrategyFactory::class);
+    $phpStormCopilot = new PhpStormCopilot($strategyFactory);
+
+    $command = './vendor/bin/sail';
+    $args = ['artisan', 'boost:mcp'];
+
+    $result = $phpStormCopilot->transformMcpCommandForWsl($command, $args);
+
+    expect($result['command'])->toBe('wsl')
+        ->and($result['args'])->toBe([
+            '--cd',
+            base_path(),
+            './vendor/bin/sail',
+            'artisan',
+            'boost:mcp',
+        ]);
+});
+
+test('transformMcpCommandForWsl handles Sail with absolute path', function (): void {
+    $strategyFactory = Mockery::mock(DetectionStrategyFactory::class);
+    $phpStormCopilot = new PhpStormCopilot($strategyFactory);
+
+    $command = '/home/user/project/vendor/bin/sail';
+    $args = ['artisan', 'boost:mcp'];
+
+    $result = $phpStormCopilot->transformMcpCommandForWsl($command, $args);
+
+    expect($result['command'])->toBe('wsl')
+        ->and($result['args'])->toBe([
+            '--cd',
+            base_path(),
+            './vendor/bin/sail',
+            'artisan',
+            'boost:mcp',
+        ]);
+});
+
+test('transformMcpCommandForWsl handles Sail with Windows-style path', function (): void {
+    $strategyFactory = Mockery::mock(DetectionStrategyFactory::class);
+    $phpStormCopilot = new PhpStormCopilot($strategyFactory);
+
+    $command = 'C:\\Users\\user\\project\\vendor\\bin\\sail';
+    $args = ['artisan', 'boost:mcp'];
+
+    $result = $phpStormCopilot->transformMcpCommandForWsl($command, $args);
+
+    expect($result['command'])->toBe('wsl')
+        ->and($result['args'])->toBe([
+            '--cd',
+            base_path(),
+            './vendor/bin/sail',
+            'artisan',
+            'boost:mcp',
+        ]);
+});
+
+test('transformMcpCommandForWsl handles WSL without Sail', function (): void {
+    $strategyFactory = Mockery::mock(DetectionStrategyFactory::class);
+    $phpStormCopilot = new PhpStormCopilot($strategyFactory);
+
+    $command = 'wsl';
+    $args = ['/usr/bin/php', '/home/user/project/artisan', 'boost:mcp'];
+
+    $result = $phpStormCopilot->transformMcpCommandForWsl($command, $args);
+
+    expect($result['command'])->toBe('wsl')
+        ->and($result['args'])->toBe([
+            '/usr/bin/php',
+            '/home/user/project/artisan',
+            'boost:mcp',
+        ]);
+});
+
+test('transformMcpCommandForWsl handles direct PHP path', function (): void {
+    $strategyFactory = Mockery::mock(DetectionStrategyFactory::class);
+    $phpStormCopilot = new PhpStormCopilot($strategyFactory);
+
+    $command = '/usr/bin/php';
+    $args = ['/home/user/project/artisan', 'boost:mcp'];
+
+    $result = $phpStormCopilot->transformMcpCommandForWsl($command, $args);
+
+    expect($result['command'])->toBe('wsl')
+        ->and($result['args'])->toBe([
+            '--cd',
+            base_path(),
+            '/usr/bin/php',
+            '/home/user/project/artisan',
+            'boost:mcp',
+        ]);
+});
+
+test('transformMcpCommandForWsl handles relative PHP path', function (): void {
+    $strategyFactory = Mockery::mock(DetectionStrategyFactory::class);
+    $phpStormCopilot = new PhpStormCopilot($strategyFactory);
+
+    $command = 'php';
+    $args = ['artisan', 'boost:mcp'];
+
+    $result = $phpStormCopilot->transformMcpCommandForWsl($command, $args);
+
+    expect($result['command'])->toBe('wsl')
+        ->and($result['args'])->toBe([
+            '--cd',
+            base_path(),
+            'php',
+            'artisan',
+            'boost:mcp',
+        ]);
+});
