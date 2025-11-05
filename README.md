@@ -28,7 +28,9 @@ This package supports WSL environments where PhpStorm runs on native Windows and
 - Check if installed: `wslvar -v`
 - Install if needed: `sudo apt install wslu`
 
-#### How it works
+<details>
+<summary>How it works</summary>
+
 1. **Detection**: Automatically detects WSL environment by checking `WSL_DISTRO_NAME` environment variable
 2. **Username Resolution**: Uses `wslvar USERNAME` to get Windows username (WSL and Windows usernames may differ)
 3. **File Writing**: Writes MCP config to Windows side via PowerShell commands
@@ -36,12 +38,16 @@ This package supports WSL environments where PhpStorm runs on native Windows and
    - Uses Base64 encoding to safely transfer JSON content
    - Copies to final location: `%LOCALAPPDATA%\github-copilot\intellij\mcp.json`
 4. **Path Handling**: Converts WSL paths to Windows paths for absolute command and artisan paths
+</details>
 
-#### Troubleshooting WSL
+<details>
+<summary>Troubleshooting WSL</summary>
+
 - Ensure `wslu` is installed and `wslvar` command works
 - Check that PowerShell is accessible from WSL with `powershell.exe -Command "Write-Output 'test'"`
 - Verify Windows username with `wslvar USERNAME`
 - If MCP config file is not created, check Windows directory permissions
+</details>
 
 #### Alternative for WSL
 If you encounter issues with WSL setup, consider using [laravel-boost-copilot-cli](https://github.com/invokable/laravel-boost-copilot-cli) which uses a different approach better suited for some WSL configurations.
