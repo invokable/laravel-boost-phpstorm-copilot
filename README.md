@@ -10,12 +10,14 @@
 - [Laravel Boost](https://github.com/laravel/boost) >= 1.7
 - [GitHub Copilot plugin](https://plugins.jetbrains.com/plugin/17718-github-copilot) installed in PhpStorm
 
-## Supported OS
+## Supported Platforms
 - macOS
 - Windows (Native Windows)
 - Linux
 
-> **Note**: It also supports Laravel Sail. Before use, start it with `vendor/bin/sail up -d`.
+### Laravel Sail
+
+It also supports Laravel Sail. Before use, start it with `vendor/bin/sail up -d`.
 
 ### WSL (Windows Subsystem for Linux)
 
@@ -52,6 +54,9 @@ This package supports WSL environments where PhpStorm runs on native Windows and
 #### Alternative for WSL
 If you encounter issues with WSL setup, consider using [laravel-boost-copilot-cli](https://github.com/invokable/laravel-boost-copilot-cli) which uses a different approach better suited for some WSL configurations.
 
+### Testbench for Package Developers
+
+Not supported. Please use [laravel-boost-copilot-cli](https://github.com/invokable/laravel-boost-copilot-cli) instead.
 
 ## Installation
 
