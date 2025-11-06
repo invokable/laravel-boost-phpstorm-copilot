@@ -110,11 +110,11 @@ class PhpStormCopilot extends CodeEnvironment implements McpClient
         // Case 1: Sail is being used (command is ./vendor/bin/sail or absolute path to sail)
         if (str_ends_with($command, '/vendor/bin/sail') || str_ends_with($command, '\\vendor\\bin\\sail')) {
             // Expected args: ["artisan", "boost:mcp"]
-            // Transform to: wsl --cd /absolute/path ./vendor/bin/sail artisan boost:mcp
+            // Transform to: wsl.exe --cd /absolute/path ./vendor/bin/sail artisan boost:mcp
             $projectPath = base_path();
 
             return [
-                'command' => 'wsl',
+                'command' => 'wsl.exe',
                 'args' => [
                     '--cd',
                     $projectPath,
@@ -124,8 +124,8 @@ class PhpStormCopilot extends CodeEnvironment implements McpClient
             ];
         }
 
-        // Case 2: WSL without Sail (command is already 'wsl')
-        if ($command === 'wsl') {
+        // Case 2: WSL without Sail (command is already 'wsl.exe')
+        if (str_starts_with($command, 'wsl')) {
             // Args are already in correct format: [php_path, artisan_path, "boost:mcp"]
             // No transformation needed
             return [
@@ -136,11 +136,11 @@ class PhpStormCopilot extends CodeEnvironment implements McpClient
 
         // Case 3: Future-proof - direct PHP path (absolute or relative)
         // This might happen if boost changes its behavior in the future
-        // Transform to: wsl --cd /absolute/path {command} {args}
+        // Transform to: wsl.exe --cd /absolute/path {command} {args}
         $projectPath = base_path();
 
         return [
-            'command' => 'wsl',
+            'command' => 'wsl.exe',
             'args' => [
                 '--cd',
                 $projectPath,

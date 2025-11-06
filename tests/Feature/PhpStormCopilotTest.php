@@ -98,7 +98,7 @@ test('transformMcpCommandForWsl handles Sail with relative path', function (): v
 
     $result = $phpStormCopilot->transformMcpCommandForWsl($command, $args);
 
-    expect($result['command'])->toBe('wsl')
+    expect($result['command'])->toBe('wsl.exe')
         ->and($result['args'])->toBe([
             '--cd',
             base_path(),
@@ -117,7 +117,7 @@ test('transformMcpCommandForWsl handles Sail with absolute path', function (): v
 
     $result = $phpStormCopilot->transformMcpCommandForWsl($command, $args);
 
-    expect($result['command'])->toBe('wsl')
+    expect($result['command'])->toBe('wsl.exe')
         ->and($result['args'])->toBe([
             '--cd',
             base_path(),
@@ -136,7 +136,7 @@ test('transformMcpCommandForWsl handles Sail with Windows-style path', function 
 
     $result = $phpStormCopilot->transformMcpCommandForWsl($command, $args);
 
-    expect($result['command'])->toBe('wsl')
+    expect($result['command'])->toBe('wsl.exe')
         ->and($result['args'])->toBe([
             '--cd',
             base_path(),
@@ -150,12 +150,12 @@ test('transformMcpCommandForWsl handles WSL without Sail', function (): void {
     $strategyFactory = Mockery::mock(DetectionStrategyFactory::class);
     $phpStormCopilot = new PhpStormCopilot($strategyFactory);
 
-    $command = 'wsl';
+    $command = 'wsl.exe';
     $args = ['/usr/bin/php', '/home/user/project/artisan', 'boost:mcp'];
 
     $result = $phpStormCopilot->transformMcpCommandForWsl($command, $args);
 
-    expect($result['command'])->toBe('wsl')
+    expect($result['command'])->toBe('wsl.exe')
         ->and($result['args'])->toBe([
             '/usr/bin/php',
             '/home/user/project/artisan',
@@ -172,7 +172,7 @@ test('transformMcpCommandForWsl handles direct PHP path', function (): void {
 
     $result = $phpStormCopilot->transformMcpCommandForWsl($command, $args);
 
-    expect($result['command'])->toBe('wsl')
+    expect($result['command'])->toBe('wsl.exe')
         ->and($result['args'])->toBe([
             '--cd',
             base_path(),
@@ -191,7 +191,7 @@ test('transformMcpCommandForWsl handles relative PHP path', function (): void {
 
     $result = $phpStormCopilot->transformMcpCommandForWsl($command, $args);
 
-    expect($result['command'])->toBe('wsl')
+    expect($result['command'])->toBe('wsl.exe')
         ->and($result['args'])->toBe([
             '--cd',
             base_path(),
