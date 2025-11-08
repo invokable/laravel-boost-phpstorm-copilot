@@ -52,8 +52,8 @@ This package supports WSL environments where PhpStorm runs on native Windows and
 - Ensure your home directory is on the C drive
 </details>
 
-#### Alternative for WSL
-If you encounter issues with WSL setup, consider using [laravel-boost-copilot-cli](https://github.com/invokable/laravel-boost-copilot-cli) which uses a different approach better suited for some WSL configurations.
+#### Recommendation for WSL
+Consider using [laravel-boost-copilot-cli](https://github.com/invokable/laravel-boost-copilot-cli), which allows you to use a project-level MCP configuration file.
 
 ### Testbench for Package Developers
 
