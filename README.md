@@ -49,6 +49,7 @@ This package supports WSL environments where PhpStorm runs on native Windows and
 - Check that PowerShell is accessible from WSL with `powershell.exe -Command "Write-Output 'test'"`
 - Verify Windows username with `wslvar USERNAME`
 - If MCP config file is not created, check Windows directory permissions
+- Ensure your home directory is on the C drive
 </details>
 
 #### Alternative for WSL
