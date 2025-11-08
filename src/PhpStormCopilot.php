@@ -98,58 +98,6 @@ class PhpStormCopilot extends CodeEnvironment implements McpClient
         return parent::installFileMcp($key, $command, $args, $env);
     }
 
-    /**
-     * Transform MCP command and args to PhpStorm-compatible WSL format.
-     *
-     * @param  string  $command  The command from installMcpViaWsl (e.g., 'wsl', './vendor/bin/sail', or absolute sail path)
-     * @param  array  $args  The arguments array
-     * @return array{command: string, args: array} The transformed config for PhpStorm
-     */
-    public function transformMcpCommandForWsl(string $command, array $args): array
-    {
-        // Case 1: Sail is being used (command is ./vendor/bin/sail or absolute path to sail)
-        if (str_ends_with($command, '/vendor/bin/sail') || str_ends_with($command, '\\vendor\\bin\\sail')) {
-            // Expected args: ["artisan", "boost:mcp"]
-            // Transform to: wsl.exe --cd /absolute/path ./vendor/bin/sail artisan boost:mcp
-            $projectPath = base_path();
-
-            return [
-                'command' => 'wsl.exe',
-                'args' => [
-                    '--cd',
-                    $projectPath,
-                    './vendor/bin/sail',
-                    ...$args,
-                ],
-            ];
-        }
-
-        // Case 2: WSL without Sail (command is already 'wsl.exe')
-        if (str_starts_with($command, 'wsl')) {
-            // Args are already in correct format: [php_path, artisan_path, "boost:mcp"]
-            // No transformation needed
-            return [
-                'command' => $command,
-                'args' => $args,
-            ];
-        }
-
-        // Case 3: Future-proof - direct PHP path (absolute or relative)
-        // This might happen if boost changes its behavior in the future
-        // Transform to: wsl.exe --cd /absolute/path {command} {args}
-        $projectPath = base_path();
-
-        return [
-            'command' => 'wsl.exe',
-            'args' => [
-                '--cd',
-                $projectPath,
-                $command,
-                ...$args,
-            ],
-        ];
-    }
-
     protected function installMcpViaWsl(string $name, string $command, array $args): bool
     {
         // Get Windows username via wslvar command
@@ -210,6 +158,58 @@ class PhpStormCopilot extends CodeEnvironment implements McpClient
         $copyResult = Process::run($copyCommand);
 
         return $copyResult->successful();
+    }
+
+    /**
+     * Transform MCP command and args to PhpStorm-compatible WSL format.
+     *
+     * @param  string  $command  The command from installMcpViaWsl (e.g., 'wsl', './vendor/bin/sail', or absolute sail path)
+     * @param  array  $args  The arguments array
+     * @return array{command: string, args: array} The transformed config for PhpStorm
+     */
+    public function transformMcpCommandForWsl(string $command, array $args): array
+    {
+        // Case 1: Sail is being used (command is ./vendor/bin/sail or absolute path to sail)
+        if (str_ends_with($command, '/vendor/bin/sail') || str_ends_with($command, '\\vendor\\bin\\sail')) {
+            // Expected args: ["artisan", "boost:mcp"]
+            // Transform to: wsl.exe --cd /absolute/path ./vendor/bin/sail artisan boost:mcp
+            $projectPath = base_path();
+
+            return [
+                'command' => 'wsl.exe',
+                'args' => [
+                    '--cd',
+                    $projectPath,
+                    './vendor/bin/sail',
+                    ...$args,
+                ],
+            ];
+        }
+
+        // Case 2: WSL without Sail (command is already 'wsl.exe')
+        if (str_starts_with($command, 'wsl')) {
+            // Args are already in correct format: [php_path, artisan_path, "boost:mcp"]
+            // No transformation needed
+            return [
+                'command' => $command,
+                'args' => $args,
+            ];
+        }
+
+        // Case 3: Future-proof - direct PHP path (absolute or relative)
+        // This might happen if boost changes its behavior in the future
+        // Transform to: wsl.exe --cd /absolute/path {command} {args}
+        $projectPath = base_path();
+
+        return [
+            'command' => 'wsl.exe',
+            'args' => [
+                '--cd',
+                $projectPath,
+                $command,
+                ...$args,
+            ],
+        ];
     }
 
     /**
