@@ -6,28 +6,28 @@ use Laravel\Boost\Install\Detection\DetectionStrategyFactory;
 use Revolution\Laravel\Boost\PhpStormCopilot;
 
 test('PhpStormCopilot returns correct name', function (): void {
-    $strategyFactory = Mockery::mock(DetectionStrategyFactory::class);
+    $strategyFactory = $this->mock(DetectionStrategyFactory::class);
     $phpStormCopilot = new PhpStormCopilot($strategyFactory);
 
     expect($phpStormCopilot->name())->toBe('phpstorm-copilot');
 });
 
 test('PhpStormCopilot returns correct display name', function (): void {
-    $strategyFactory = Mockery::mock(DetectionStrategyFactory::class);
+    $strategyFactory = $this->mock(DetectionStrategyFactory::class);
     $phpStormCopilot = new PhpStormCopilot($strategyFactory);
 
     expect($phpStormCopilot->displayName())->toBe('PhpStorm with GitHub Copilot');
 });
 
 test('PhpStormCopilot returns correct MCP config key', function (): void {
-    $strategyFactory = Mockery::mock(DetectionStrategyFactory::class);
+    $strategyFactory = $this->mock(DetectionStrategyFactory::class);
     $phpStormCopilot = new PhpStormCopilot($strategyFactory);
 
     expect($phpStormCopilot->mcpConfigKey())->toBe('servers');
 });
 
 test('PhpStormCopilot system detection config has paths for Darwin', function (): void {
-    $strategyFactory = Mockery::mock(DetectionStrategyFactory::class);
+    $strategyFactory = $this->mock(DetectionStrategyFactory::class);
     $phpStormCopilot = new PhpStormCopilot($strategyFactory);
 
     $config = $phpStormCopilot->systemDetectionConfig(\Laravel\Boost\Install\Enums\Platform::Darwin);
@@ -37,7 +37,7 @@ test('PhpStormCopilot system detection config has paths for Darwin', function ()
 });
 
 test('PhpStormCopilot system detection config has paths for Windows', function (): void {
-    $strategyFactory = Mockery::mock(DetectionStrategyFactory::class);
+    $strategyFactory = $this->mock(DetectionStrategyFactory::class);
     $phpStormCopilot = new PhpStormCopilot($strategyFactory);
 
     $config = $phpStormCopilot->systemDetectionConfig(\Laravel\Boost\Install\Enums\Platform::Windows);
@@ -47,7 +47,7 @@ test('PhpStormCopilot system detection config has paths for Windows', function (
 });
 
 test('PhpStormCopilot project detection config checks for copilot-instructions.md', function (): void {
-    $strategyFactory = Mockery::mock(DetectionStrategyFactory::class);
+    $strategyFactory = $this->mock(DetectionStrategyFactory::class);
     $phpStormCopilot = new PhpStormCopilot($strategyFactory);
 
     $config = $phpStormCopilot->projectDetectionConfig();
@@ -57,14 +57,14 @@ test('PhpStormCopilot project detection config checks for copilot-instructions.m
 });
 
 test('PhpStormCopilot returns absolute PHP_BINARY path', function (): void {
-    $strategyFactory = Mockery::mock(DetectionStrategyFactory::class);
+    $strategyFactory = $this->mock(DetectionStrategyFactory::class);
     $phpStormCopilot = new PhpStormCopilot($strategyFactory);
 
     expect($phpStormCopilot->getPhpPath())->toBe(PHP_BINARY);
 });
 
 test('PhpStormCopilot returns absolute artisan path', function (): void {
-    $strategyFactory = Mockery::mock(DetectionStrategyFactory::class);
+    $strategyFactory = $this->mock(DetectionStrategyFactory::class);
     $phpStormCopilot = new PhpStormCopilot($strategyFactory);
 
     $artisanPath = $phpStormCopilot->getArtisanPath();
@@ -75,7 +75,7 @@ test('PhpStormCopilot returns absolute artisan path', function (): void {
 });
 
 test('PhpStormCopilot paths remain absolute regardless of forceAbsolutePath parameter', function (): void {
-    $strategyFactory = Mockery::mock(DetectionStrategyFactory::class);
+    $strategyFactory = $this->mock(DetectionStrategyFactory::class);
     $phpStormCopilot = new PhpStormCopilot($strategyFactory);
 
     // PhpStormCopilot always uses absolute paths, so forceAbsolutePath shouldn't change behavior
@@ -90,7 +90,7 @@ test('PhpStormCopilot paths remain absolute regardless of forceAbsolutePath para
 });
 
 test('transformMcpCommandForWsl handles Sail with relative path', function (): void {
-    $strategyFactory = Mockery::mock(DetectionStrategyFactory::class);
+    $strategyFactory = $this->mock(DetectionStrategyFactory::class);
     $phpStormCopilot = new PhpStormCopilot($strategyFactory);
 
     $command = './vendor/bin/sail';
@@ -109,7 +109,7 @@ test('transformMcpCommandForWsl handles Sail with relative path', function (): v
 });
 
 test('transformMcpCommandForWsl handles Sail with absolute path', function (): void {
-    $strategyFactory = Mockery::mock(DetectionStrategyFactory::class);
+    $strategyFactory = $this->mock(DetectionStrategyFactory::class);
     $phpStormCopilot = new PhpStormCopilot($strategyFactory);
 
     $command = '/home/user/project/vendor/bin/sail';
@@ -128,7 +128,7 @@ test('transformMcpCommandForWsl handles Sail with absolute path', function (): v
 });
 
 test('transformMcpCommandForWsl handles Sail with Windows-style path', function (): void {
-    $strategyFactory = Mockery::mock(DetectionStrategyFactory::class);
+    $strategyFactory = $this->mock(DetectionStrategyFactory::class);
     $phpStormCopilot = new PhpStormCopilot($strategyFactory);
 
     $command = 'C:\\Users\\user\\project\\vendor\\bin\\sail';
@@ -147,7 +147,7 @@ test('transformMcpCommandForWsl handles Sail with Windows-style path', function 
 });
 
 test('transformMcpCommandForWsl handles WSL without Sail', function (): void {
-    $strategyFactory = Mockery::mock(DetectionStrategyFactory::class);
+    $strategyFactory = $this->mock(DetectionStrategyFactory::class);
     $phpStormCopilot = new PhpStormCopilot($strategyFactory);
 
     $command = 'wsl.exe';
@@ -164,7 +164,7 @@ test('transformMcpCommandForWsl handles WSL without Sail', function (): void {
 });
 
 test('transformMcpCommandForWsl handles direct PHP path', function (): void {
-    $strategyFactory = Mockery::mock(DetectionStrategyFactory::class);
+    $strategyFactory = $this->mock(DetectionStrategyFactory::class);
     $phpStormCopilot = new PhpStormCopilot($strategyFactory);
 
     $command = '/usr/bin/php';
@@ -183,7 +183,7 @@ test('transformMcpCommandForWsl handles direct PHP path', function (): void {
 });
 
 test('transformMcpCommandForWsl handles relative PHP path', function (): void {
-    $strategyFactory = Mockery::mock(DetectionStrategyFactory::class);
+    $strategyFactory = $this->mock(DetectionStrategyFactory::class);
     $phpStormCopilot = new PhpStormCopilot($strategyFactory);
 
     $command = 'php';
