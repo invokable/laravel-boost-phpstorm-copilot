@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Revolution\Laravel\Boost;
 
+use Exception;
 use Illuminate\Support\Facades\Process;
 use Laravel\Boost\Contracts\McpClient;
 use Laravel\Boost\Install\CodeEnvironment\CodeEnvironment;
@@ -87,8 +88,15 @@ class PhpStormCopilot extends CodeEnvironment implements McpClient
         };
     }
 
+    /**
+     * @throws Exception
+     */
     protected function installFileMcp(string $key, string $command, array $args = [], array $env = []): bool
     {
+        if ($this->isRunningInTestbench()) {
+            throw new Exception('Testbench is not supported. Consider using laravel-boost-copilot-cli instead.');
+        }
+
         $is_wsl = ! empty(getenv('WSL_DISTRO_NAME'));
 
         if ($is_wsl) {
@@ -229,5 +237,10 @@ class PhpStormCopilot extends CodeEnvironment implements McpClient
         }
 
         return $data;
+    }
+
+    protected function isRunningInTestbench(): bool
+    {
+        return defined('TESTBENCH_CORE');
     }
 }
