@@ -18,6 +18,7 @@
         "laravel/pint": "^1.25",
         "orchestra/testbench": "^10.6",
         "pestphp/pest": "^4.1",
+        "pestphp/pest-plugin-laravel": "^4.0",
         "mockery/mockery": "^1.6",
         "revolution/laravel-boost-copilot-cli": "^1.0"
     },
