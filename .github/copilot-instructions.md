@@ -123,6 +123,42 @@ System-wide MCP config file contains absolute path to Laravel project:
 
 **Important**: Empty arrays in the configuration are automatically removed to ensure compatibility. Some MCP tools fail when encountering empty arrays (e.g., `"headers": []`), but work correctly when the field is absent entirely. The implementation recursively removes all empty arrays before writing the configuration file.
 
+#### WSL
+
+```json
+{
+  "servers": {
+    "laravel-boost": {
+      "command": "wsl.exe",
+      "args": [
+          "/absolute/path/to/php", 
+          "/absolute/path/to/laravel/artisan", 
+          "boost:mcp"
+      ]
+    }
+  }
+}
+```
+
+#### WSL and Laravel Sail
+
+```json
+{
+  "servers": {
+    "laravel-boost": {
+      "command": "wsl.exe",
+      "args": [
+          "--cd",
+          "/absolute/path/to/project",
+          "./vendor/bin/sail", 
+          "artisan", 
+          "boost:mcp"
+      ]
+    }
+  }
+}
+```
+
 ## Important Constraints
 
 1. **Platform Support**: Native Windows is supported (macOS, Linux, Windows)
