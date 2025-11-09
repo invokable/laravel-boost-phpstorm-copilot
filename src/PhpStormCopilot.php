@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Revolution\Laravel\Boost;
 
 use Exception;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Process;
 use Laravel\Boost\Contracts\McpClient;
 use Laravel\Boost\Install\CodeEnvironment\CodeEnvironment;
@@ -102,6 +103,8 @@ class PhpStormCopilot extends CodeEnvironment implements McpClient
         if ($is_wsl) {
             return $this->installMcpViaWsl($key, $command, $args);
         }
+
+        $command = $this->absoluteSailPath($command);
 
         return parent::installFileMcp($key, $command, $args, $env);
     }
@@ -218,6 +221,21 @@ class PhpStormCopilot extends CodeEnvironment implements McpClient
                 ...$args,
             ],
         ];
+    }
+
+    /**
+     * Use absolute sail path in non WSL environments.
+     *
+     * @param  string  $command
+     * @return string
+     */
+    public function absoluteSailPath(string $command): string
+    {
+        if ($command !== './vendor/bin/sail') {
+            return $command;
+        }
+
+        return base_path(Arr::join(['vendor', 'bin', 'sail'], DIRECTORY_SEPARATOR));
     }
 
     /**
