@@ -225,9 +225,6 @@ class PhpStormCopilot extends CodeEnvironment implements McpClient
 
     /**
      * Use absolute sail path in non WSL environments.
-     *
-     * @param  string  $command
-     * @return string
      */
     public function absoluteSailPath(string $command): string
     {
