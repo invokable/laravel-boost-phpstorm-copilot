@@ -104,9 +104,9 @@ class PhpStormCopilot extends CodeEnvironment implements McpClient
             return $this->installMcpViaWsl($key, $command, $args);
         }
 
-        $command = $this->absoluteSailPath($command);
+        $transformed = $this->transformSailCommand($command, $args);
 
-        return parent::installFileMcp($key, $command, $args, $env);
+        return parent::installFileMcp($key, $transformed['command'], $transformed['args'], $env);
     }
 
     protected function installMcpViaWsl(string $name, string $command, array $args): bool
@@ -224,15 +224,33 @@ class PhpStormCopilot extends CodeEnvironment implements McpClient
     }
 
     /**
-     * Use absolute sail path in non WSL environments.
+     * Transform Sail command to use bash -c wrapper for proper working directory.
+     *
+     * @param  string  $command  The command (e.g., './vendor/bin/sail' or absolute PHP path)
+     * @param  array  $args  The arguments array (e.g., ["artisan", "boost:mcp"])
+     * @return array{command: string, args: array} The transformed config
      */
-    public function absoluteSailPath(string $command): string
+    public function transformSailCommand(string $command, array $args): array
     {
-        if ($command !== './vendor/bin/sail') {
-            return $command;
+        // If not using Sail, return as-is with absolute path if needed
+        if ($command !== './vendor/bin/sail' && ! str_ends_with($command, '/vendor/bin/sail')) {
+            return [
+                'command' => $command,
+                'args' => $args,
+            ];
         }
 
-        return base_path(Arr::join(['vendor', 'bin', 'sail'], DIRECTORY_SEPARATOR));
+        // Use bash -c to cd into project directory before running sail
+        $projectPath = base_path();
+        $argsString = implode(' ', array_map('escapeshellarg', $args));
+
+        return [
+            'command' => 'bash',
+            'args' => [
+                '-c',
+                "cd {$projectPath} && ./vendor/bin/sail {$argsString}",
+            ],
+        ];
     }
 
     /**

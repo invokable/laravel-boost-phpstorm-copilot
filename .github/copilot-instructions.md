@@ -165,10 +165,10 @@ System-wide MCP config file contains absolute path to Laravel project:
 {
   "servers": {
     "laravel-boost": {
-      "command": "/absolute/path/to/project/vendor/bin/sail",
+      "command": "bash", 
       "args": [
-          "artisan", 
-          "boost:mcp"
+         "-c",
+         "cd /absolute/path/to/project && ./vendor/bin/sail artisan boost:mcp"
       ]
     }
   }
