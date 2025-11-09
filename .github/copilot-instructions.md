@@ -159,6 +159,22 @@ System-wide MCP config file contains absolute path to Laravel project:
 }
 ```
 
+#### macOS/Linux and Laravel Sail
+
+```json
+{
+  "servers": {
+    "laravel-boost": {
+      "command": "/absolute/path/to/project/vendor/bin/sail",
+      "args": [
+          "artisan", 
+          "boost:mcp"
+      ]
+    }
+  }
+}
+```
+
 ## Important Constraints
 
 1. **Platform Support**: Native Windows is supported (macOS, Linux, Windows)
