@@ -111,15 +111,15 @@ class PhpStormCopilot extends CodeEnvironment implements McpClient
 
     protected function installMcpViaWsl(string $name, string $command, array $args): bool
     {
-        // Get Windows username via wslvar command
-        $usernameResult = Process::run('wslvar USERNAME');
-        $username = trim($usernameResult->output());
+        // Get Windows LOCALAPPDATA path via wslvar command
+        $localAppDataResult = Process::run('wslvar LOCALAPPDATA');
+        $localAppData = trim($localAppDataResult->output());
 
-        if (empty($username)) {
+        if (empty($localAppData)) {
             return false;
         }
 
-        $winPath = "C:\\Users\\{$username}\\AppData\\Local\\github-copilot\\intellij";
+        $winPath = "{$localAppData}\\github-copilot\\intellij";
         $filePath = "{$winPath}\\mcp.json";
 
         // Read existing config via PowerShell
@@ -147,7 +147,7 @@ class PhpStormCopilot extends CodeEnvironment implements McpClient
 
         // Use Windows TEMP path directly
         $tempFileName = 'mcp_'.uniqid().'.json';
-        $winTempPath = "C:\\Users\\{$username}\\AppData\\Local\\Temp\\{$tempFileName}";
+        $winTempPath = "{$localAppData}\\Temp\\{$tempFileName}";
 
         // Write JSON content to temp file via PowerShell with Base64 encoding
         $base64Content = base64_encode($jsonContent);

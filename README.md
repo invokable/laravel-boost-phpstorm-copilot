@@ -29,12 +29,13 @@ This package supports WSL environments where PhpStorm runs on native Windows and
 - `wslu` package must be installed in WSL
 - Check if installed: `wslvar -v`
 - Install if needed: `sudo apt install wslu`
+- Ensure your user profile is on the C drive (default location)
 
 <details>
 <summary>How it works</summary>
 
 1. **Detection**: Automatically detects WSL environment by checking `WSL_DISTRO_NAME` environment variable
-2. **Username Resolution**: Uses `wslvar USERNAME` to get Windows username (WSL and Windows usernames may differ)
+2. **Path Resolution**: Uses `wslvar LOCALAPPDATA` to get Windows AppData\Local path (e.g., `C:\Users\YourUsername\AppData\Local`)
 3. **File Writing**: Writes MCP config to Windows side via PowerShell commands
    - Creates temporary file in Windows `%TEMP%` directory
    - Uses Base64 encoding to safely transfer JSON content
@@ -47,9 +48,9 @@ This package supports WSL environments where PhpStorm runs on native Windows and
 
 - Ensure `wslu` is installed and `wslvar` command works
 - Check that PowerShell is accessible from WSL with `powershell.exe -Command "Write-Output 'test'"`
-- Verify Windows username with `wslvar USERNAME`
+- Verify Windows LOCALAPPDATA path with `wslvar LOCALAPPDATA` (should return `C:\Users\YourUsername\AppData\Local`)
 - If MCP config file is not created, check Windows directory permissions
-- Ensure your home directory is on the C drive
+- Ensure your user profile is on the C drive (default location)
 </details>
 
 #### Recommendation for WSL
