@@ -21,6 +21,7 @@ This is a Laravel package that provides custom CodeEnvironment integration for P
    - Implements `McpClient` interfaces
    - Handles detection, configuration, and MCP installation
    - Generates system-wide MCP config file
+   - `src/Concerns/WithWSL.php` trait is just for code splitting purposes
 
 2. **PhpStormCopilotServiceProvider.php**: Laravel service provider
    - Registers the PhpStormCopilot CodeEnvironment with Laravel Boost
