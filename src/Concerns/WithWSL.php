@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Revolution\Laravel\Boost\Concerns;
 
 use Illuminate\Support\Facades\Process;
