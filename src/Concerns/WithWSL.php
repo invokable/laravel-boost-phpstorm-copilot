@@ -19,6 +19,7 @@ trait WithWSL
         $localAppDataResult = Process::run('wslvar LOCALAPPDATA');
         if ($localAppDataResult->failed()) {
             dump($localAppDataResult->output());
+
             return false;
         }
 
