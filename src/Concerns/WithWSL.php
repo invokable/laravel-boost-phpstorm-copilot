@@ -18,7 +18,8 @@ trait WithWSL
         // Get Windows LOCALAPPDATA path via wslvar command
         $localAppDataResult = Process::run('wslvar LOCALAPPDATA');
         if ($localAppDataResult->failed()) {
-            dump($localAppDataResult->errorOutput());
+            dump($localAppDataResult->output());
+
             return false;
         }
 
