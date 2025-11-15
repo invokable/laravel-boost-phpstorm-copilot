@@ -51,6 +51,11 @@ This package supports WSL environments where PhpStorm runs on native Windows and
 - Verify Windows LOCALAPPDATA path with `wslvar LOCALAPPDATA` (should return `C:\Users\YourUsername\AppData\Local`)
 - If MCP config file is not created, check Windows directory permissions
 - Ensure your user profile is on the C drive (default location)
+- `[error] WSL Interoperability is disabled. Please enable it before using WSL.` If you see this error, enable WSL Interop by adding the following binfmt configuration:
+```shell
+echo ":WSLInterop:M::MZ::/init:PF" | sudo tee /usr/lib/binfmt.d/WSLInterop.conf
+sudo systemctl restart systemd-binfmt
+```
 </details>
 
 #### Recommendation for WSL
