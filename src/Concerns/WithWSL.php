@@ -16,15 +16,9 @@ trait WithWSL
     protected function installMcpViaWsl(string $name, string $command, array $args): bool
     {
         // Get Windows LOCALAPPDATA path via wslvar command
-        $localAppDataResult = Process::run('wslvar LOCALAPPDATA');
-        if ($localAppDataResult->failed()) {
-            dump($localAppDataResult->errorOutput());
-
-            return false;
-        }
+        $localAppDataResult = Process::run('wslvar LOCALAPPDATA')->throw();
 
         $localAppData = trim($localAppDataResult->output());
-
         if (empty($localAppData)) {
             return false;
         }
@@ -64,7 +58,7 @@ trait WithWSL
         $writeTempCommand = 'powershell.exe -NoProfile -Command "'
             ."[System.IO.File]::WriteAllBytes('{$winTempPath}', [System.Convert]::FromBase64String('{$base64Content}'))\"";
 
-        $writeTempResult = Process::run($writeTempCommand);
+        $writeTempResult = Process::run($writeTempCommand)->throw();
 
         if (! $writeTempResult->successful()) {
             return false;
@@ -76,7 +70,7 @@ trait WithWSL
             ."Copy-Item -Path '{$winTempPath}' -Destination '{$filePath}' -Force; "
             ."Remove-Item -Path '{$winTempPath}' -Force\"";
 
-        $copyResult = Process::run($copyCommand);
+        $copyResult = Process::run($copyCommand)->throw();
 
         return $copyResult->successful();
     }
