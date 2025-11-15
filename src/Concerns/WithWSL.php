@@ -28,7 +28,7 @@ trait WithWSL
 
         // Read existing config via PowerShell
         $readCommand = "powershell.exe -NoProfile -Command \"if (Test-Path '{$filePath}') { Get-Content '{$filePath}' -Raw } else { '{}' }\"";
-        $result = Process::run($readCommand);
+        $result = Process::run($readCommand)->throw();
 
         $config = json_decode($result->output() ?: '{}', true) ?: [];
 
