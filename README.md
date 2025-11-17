@@ -90,7 +90,7 @@ php artisan boost:update
 
 ### MCP Configuration File Location by OS
 - macOS, Linux: `~/.config/github-copilot/intellij/mcp.json`
-- Windows: `%LOCALAPPDATA%\\github-copilot\\intellij\\mcp.json`
+- Windows: `%LOCALAPPDATA%\github-copilot\intellij\mcp.json`
 
 ## License
 MIT
