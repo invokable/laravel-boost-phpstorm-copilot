@@ -23,8 +23,6 @@ It also supports Laravel Sail. Before use, start it with `vendor/bin/sail up -d`
 
 This package supports WSL environments where PhpStorm runs on native Windows and PHP runs in WSL. This is a common development setup that provides Windows IDE features with Linux development environment.
 
-> **Note**: "Remote development" running PhpStorm within WSL is not supported.
-
 #### Requirements for WSL
 - `wslu` package must be installed in WSL
 - Check if installed: `wslvar -v`
@@ -55,6 +53,27 @@ This package supports WSL environments where PhpStorm runs on native Windows and
 ```shell
 echo ":WSLInterop:M::MZ::/init:PF" | sudo tee /usr/lib/binfmt.d/WSLInterop.conf
 sudo systemctl restart systemd-binfmt
+```
+</details>
+
+#### Remote Development
+
+<details>
+<summary>Running PhpStorm within WSL is not supported.</summary>
+
+Because it is not possible to distinguish between a "Windows version of PhpStorm and WSL environment" and a "PhpStorm remote development environment with WSL".
+The remote development environment is the same as Linux, so if you really want to use it, please configure the MCP file manually.
+`~/.config/github-copilot/intellij/mcp.json`
+
+```json
+{
+  "servers": {
+    "laravel-boost": {
+      "command": "/absolute/path/to/php",
+      "args": ["/absolute/path/to/laravel/artisan", "boost:mcp"]
+    }
+  }
+}
 ```
 </details>
 
