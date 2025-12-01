@@ -14,15 +14,15 @@ If the project path in the MCP configuration does not match your current Laravel
 
 @verbatim
 <code-snippet name="Update MCP Configuration for Current Project" lang="bash">
-php artisan boost:update
+php artisan boost:install --no-interaction
 </code-snippet>
 @endverbatim
 
 This command updates the MCP configuration file with the absolute path to your current Laravel project, ensuring MCP tools interact with the correct project.
 
-### When to Run boost:update
+### When to Run boost:install
 
-Run `php artisan boost:update` whenever you:
+Run `php artisan boost:install` whenever you:
 - Switch to a different Laravel project
 - Clone or move your project to a new location
 - Notice MCP tools are accessing the wrong project's data

@@ -98,13 +98,14 @@ When you run the Laravel Boost installation command within your Laravel project,
 php artisan boost:install
 ```
 
-> **Note**: **DO NOT** select `PhpStorm`, it's actually `PhpStorm Junie`
+> [!NOTE]
+> **DO NOT** select `PhpStorm`, it's actually `PhpStorm Junie`
 
 ### Important
-With PhpStorm and GitHub Copilot plugin, the MCP configuration file is stored in a system-wide location. Therefore, you need to run the `boost:update` command to update the configuration file whenever you switch Laravel projects. The configuration file contains the absolute path to your Laravel project.
+With PhpStorm and GitHub Copilot plugin, the MCP configuration file is stored in a system-wide location. Therefore, you need to run the `boost:install` command to update the configuration file whenever you switch Laravel projects. The configuration file contains the absolute path to your Laravel project.
 
 ```shell
-php artisan boost:update
+php artisan boost:install --no-interaction
 ```
 
 ### MCP Configuration File Location by OS
