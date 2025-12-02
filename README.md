@@ -108,6 +108,8 @@ With PhpStorm and GitHub Copilot plugin, the MCP configuration file is stored in
 php artisan boost:install --no-interaction
 ```
 
+In boost 1.8 and later, the `boost:update` command does not update the MCP configuration file.
+
 ### MCP Configuration File Location by OS
 - macOS, Linux: `~/.config/github-copilot/intellij/mcp.json`
 - Windows: `%LOCALAPPDATA%\github-copilot\intellij\mcp.json`
