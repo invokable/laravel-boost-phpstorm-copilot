@@ -20,7 +20,7 @@
         "pestphp/pest": "^4.1",
         "pestphp/pest-plugin-laravel": "^4.0",
         "mockery/mockery": "^1.6",
-        "revolution/laravel-boost-copilot-cli": "^1.0"
+        "revolution/laravel-boost-copilot-cli": "^1.1"
     },
     "autoload": {
         "psr-4": {
