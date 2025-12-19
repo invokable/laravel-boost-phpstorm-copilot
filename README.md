@@ -94,7 +94,8 @@ composer require revolution/laravel-boost-phpstorm-copilot --dev
 
 When you run the Laravel Boost installation command within your Laravel project, you'll see a `PhpStorm with GitHub Copilot` item added to the list.
 
-Select `PhpStorm with GitHub Copilot` for both the editor and guidelines. This will create MCP config file and `.github/instructions/laravel-boost.instructions.md`.
+- Select `PhpStorm with GitHub Copilot` for the editor. This will create an MCP config file in a location appropriate for your environment.
+- Select `GitHub Copilot(Custom instructions)` for the guidelines. This will create `.github/instructions/laravel-boost.instructions.md`. If you are using this package at the same time as `laravel-boost-copilot-cli`, you only need to select one or the other.
 
 If you want to create the regular `.github/copilot-instructions.md`, select `GitHub Copilot` for the guidelines.
 

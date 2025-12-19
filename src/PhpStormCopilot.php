@@ -75,6 +75,14 @@ class PhpStormCopilot extends CodeEnvironment implements Agent, McpClient
     }
 
     /**
+     * Get the display name of the Agent.
+     */
+    public function agentName(): ?string
+    {
+        return 'GitHub Copilot(Custom instructions)';
+    }
+
+    /**
      * Get the file path where AI guidelines should be written.
      *
      * @return string The relative or absolute path to the guideline file
