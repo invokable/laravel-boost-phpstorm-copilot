@@ -58,7 +58,8 @@
         ],
         "test:lint": [
             "pint --test"
-        ]
+        ],
+        "boost": "vendor/bin/testbench boost:install --no-interaction --ansi"
     },
     "config": {
         "allow-plugins": {
