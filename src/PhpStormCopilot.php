@@ -91,6 +91,7 @@ class PhpStormCopilot extends CodeEnvironment implements Agent, McpClient
     {
         return config('boost.code_environments.copilot_custom.guidelines_path', '.github/instructions/laravel-boost.instructions.md');
     }
+
     public function mcpConfigKey(): string
     {
         return 'servers';
