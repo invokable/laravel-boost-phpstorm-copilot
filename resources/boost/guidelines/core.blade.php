@@ -14,7 +14,7 @@ If the project path in the MCP configuration does not match your current Laravel
 
 @verbatim
 <code-snippet name="Update MCP Configuration for Current Project" lang="bash">
-php artisan boost:install --no-interaction
+php artisan boost:install --guidelines --skills --mcp --no-interaction
 </code-snippet>
 @endverbatim
 

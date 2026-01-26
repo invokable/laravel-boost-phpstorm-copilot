@@ -5,17 +5,16 @@ declare(strict_types=1);
 namespace Revolution\Laravel\Boost;
 
 use Exception;
-use Laravel\Boost\Contracts\Agent;
-use Laravel\Boost\Contracts\McpClient;
-use Laravel\Boost\Install\CodeEnvironment\CodeEnvironment;
+use Laravel\Boost\Contracts\SupportsGuidelines;
+use Laravel\Boost\Contracts\SupportsMcp;
+use Laravel\Boost\Contracts\SupportsSkills;
+use Laravel\Boost\Install\Agents\Agent;
 use Laravel\Boost\Install\Enums\Platform;
 use Revolution\Laravel\Boost\Concerns\WithWSL;
 
-class PhpStormCopilot extends CodeEnvironment implements Agent, McpClient
+class PhpStormCopilot extends Agent implements SupportsGuidelines, SupportsMcp, SupportsSkills
 {
     use WithWSL;
-
-    public bool $useAbsolutePathForMcp = true;
 
     public function name(): string
     {
@@ -25,6 +24,11 @@ class PhpStormCopilot extends CodeEnvironment implements Agent, McpClient
     public function displayName(): string
     {
         return 'PhpStorm with GitHub Copilot';
+    }
+
+    public function useAbsolutePathForMcp(): bool
+    {
+        return true;
     }
 
     /**
@@ -75,21 +79,21 @@ class PhpStormCopilot extends CodeEnvironment implements Agent, McpClient
     }
 
     /**
-     * Get the display name of the Agent.
-     */
-    public function agentName(): ?string
-    {
-        return 'GitHub Copilot(Custom instructions)';
-    }
-
-    /**
      * Get the file path where AI guidelines should be written.
      *
      * @return string The relative or absolute path to the guideline file
      */
     public function guidelinesPath(): string
     {
-        return config('boost.code_environments.copilot_custom.guidelines_path', '.github/instructions/laravel-boost.instructions.md');
+        return config('boost.agents.phpstorm_copilot.guidelines_path', '.github/instructions/laravel-boost.instructions.md');
+    }
+
+    /**
+     * Get the file path where agent skills should be written.
+     */
+    public function skillsPath(): string
+    {
+        return config('boost.agents.phpstorm_copilot.skills_path', '.github/skills');
     }
 
     public function mcpConfigKey(): string

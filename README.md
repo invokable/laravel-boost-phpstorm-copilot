@@ -1,4 +1,4 @@
-# Laravel Boost Custom CodeEnvironment for PhpStorm with GitHub Copilot plugin
+# Laravel Boost Custom Agent for PhpStorm with GitHub Copilot plugin
 
 [![tests](https://github.com/invokable/laravel-boost-phpstorm-copilot/actions/workflows/tests.yml/badge.svg)](https://github.com/invokable/laravel-boost-phpstorm-copilot/actions/workflows/tests.yml)
 
@@ -7,7 +7,7 @@
 ## Requirements
 - PHP >= 8.3
 - Laravel >= 12.x
-- [Laravel Boost](https://github.com/laravel/boost) >= 1.7
+- [Laravel Boost](https://github.com/laravel/boost) >= 2.0
 - [GitHub Copilot plugin](https://plugins.jetbrains.com/plugin/17718-github-copilot) installed in PhpStorm
 
 ## Supported Platforms
@@ -94,10 +94,11 @@ composer require revolution/laravel-boost-phpstorm-copilot --dev
 
 When you run the Laravel Boost installation command within your Laravel project, you'll see a `PhpStorm with GitHub Copilot` item added to the list.
 
-- Select `PhpStorm with GitHub Copilot` for the editor. This will create an MCP config file in a location appropriate for your environment.
-- Select `GitHub Copilot(Custom instructions)` for the guidelines. This will create `.github/instructions/laravel-boost.instructions.md`. If you are using this package at the same time as `laravel-boost-copilot-cli`, you only need to select one or the other.
-
-If you want to create the regular `.github/copilot-instructions.md`, select `GitHub Copilot` for the guidelines.
+- First, you will see `Which Boost features would you like to configure?`. The files will be installed depending on the features you select.
+    - `AI Guidelines`: `.github/instructions/laravel-boost.instructions.md`
+    - `Agent Skills`: `.github/skills`
+    - `Boost MCP Server Configuration`: A location appropriate for your environment.
+- Next, you will see `Which AI agents would you like to configure?`. Select `PhpStorm with GitHub Copilot` for the AI agent.
 
 ```shell
 php artisan boost:install
@@ -110,7 +111,7 @@ php artisan boost:install
 With PhpStorm and GitHub Copilot plugin, the MCP configuration file is stored in a system-wide location. Therefore, you need to run the `boost:install` command to update the configuration file whenever you switch Laravel projects. The configuration file contains the absolute path to your Laravel project.
 
 ```shell
-php artisan boost:install --no-interaction
+php artisan boost:install --guidelines --skills --mcp --no-interaction
 ```
 
 In boost 1.8 and later, the `boost:update` command does not update the MCP configuration file.

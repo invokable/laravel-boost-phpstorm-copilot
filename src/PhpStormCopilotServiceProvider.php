@@ -16,6 +16,6 @@ class PhpStormCopilotServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        Boost::registerCodeEnvironment('phpstorm-copilot', PhpStormCopilot::class);
+        Boost::registerAgent('phpstorm-copilot', PhpStormCopilot::class);
     }
 }
