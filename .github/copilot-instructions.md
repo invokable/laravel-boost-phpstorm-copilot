@@ -17,14 +17,11 @@ This is a Laravel package that provides custom CodeEnvironment integration for P
 
 ### Core Components
 
-1. **PhpStormCopilot.php**: Main CodeEnvironment implementation
-   - Implements `Agent`, `McpClient` interfaces
-   - Handles detection, configuration, and MCP installation
-   - Generates system-wide MCP config file
+1. **PhpStormCopilot.php**: Main `Agent` implementation
    - `src/Concerns/WithWSL.php` trait is just for code splitting purposes
 
 2. **PhpStormCopilotServiceProvider.php**: Laravel service provider
-   - Registers the PhpStormCopilot CodeEnvironment with Laravel Boost
+   - Registers the PhpStormCopilot `Agent` with Laravel Boost
    - Auto-discovered via Laravel's package discovery
 
 ### Key Features
@@ -100,10 +97,6 @@ This is a Laravel package that provides custom CodeEnvironment integration for P
 - Write tests for all new features and bug fixes
 
 ## Package Integration
-
-### Laravel Boost Integration Points
-- Extends `CodeEnvironment` base class
-- Implements `McpClient` interface for MCP server setup
 
 ### MCP Configuration Format
 System-wide MCP config file contains absolute path to Laravel project:
@@ -184,70 +177,7 @@ System-wide MCP config file contains absolute path to Laravel project:
 4. **File Structure**: 
    - `.github/copilot-instructions.md` is project-local
    - MCP config is system-wide in OS-specific locations
-5. **Project Switching**: Users must run `boost:update` when switching Laravel projects
-
-## Common Tasks
-
-### Adding New Detection Methods
-1. Update `systemDetectionConfig()` for PhpStorm and plugin detection
-2. Keep detection lightweight and fast
-3. Write tests in `tests/Feature/PhpStormCopilotTest.php`
-4. Run `composer test` to verify
-
-### Modifying MCP Configuration
-1. Edit `installFileMcp()` method for file-based MCP installation
-2. Handle OS-specific config file paths correctly
-3. Use absolute paths for Laravel project location
-4. Remove empty arrays from configuration before writing to ensure compatibility
-5. Validate JSON format before writing
-6. Add test cases for the new configuration
-7. Test with temporary directories in tests
-
-### Adding New Features
-1. Write tests first (TDD approach)
-2. Implement the feature
-3. Run `composer test` to verify tests pass
-4. Run `composer lint` to format code
-5. Verify with `composer test:lint`
-6. Update documentation if needed
-
-### Updating Documentation
-- Update README.md for user-facing changes
-- Keep installation instructions clear and concise
-- Include version requirements
-- Update this file for development guideline changes
-
-## Dependencies Management
-
-### Production Dependencies
-- Keep minimal: only Laravel core packages and Laravel Boost
-- PHP 8.3+ required
-- Laravel 12.x+ required
-
-### Development Dependencies
-- `pestphp/pest` - Testing framework
-- `orchestra/testbench` - Package testing support
-- `mockery/mockery` - Mocking library
-- `laravel/pint` - Code formatter
-
-### Installation
-- This package is development-only (require-dev in user projects)
-- Run `composer install` to set up development environment
-
-## Development Workflow
-
-### Before Committing
-1. Run all tests: `composer test`
-2. Format code: `composer lint`
-3. Verify formatting: `composer test:lint`
-4. Check test coverage: `vendor/bin/pest --coverage`
-5. Ensure all tests pass in CI (GitHub Actions)
-
-### Continuous Integration
-- **GitHub Actions**: `.github/workflows/tests.yml`
-- Tests run on PHP 8.3 and 8.4
-- Runs on every push and pull request to main branch
-- Must pass before merging
+5. **Project Switching**: Users must run `boost:install` when switching Laravel projects
 
 ### Composer Scripts
 ```bash
@@ -255,17 +185,3 @@ composer test          # Run all tests
 composer lint          # Format code with Pint
 composer test:lint     # Check code formatting
 ```
-
-## Release Notes
-
-When preparing releases, ensure:
-- All tests pass: `composer test`
-- Code is properly formatted: `composer test:lint`
-- Test coverage remains above 90%
-- Compatibility with Laravel Boost version requirements
-- Test with latest PhpStorm and GitHub Copilot plugin versions
-- Test on all supported platforms (macOS, Linux, Windows)
-- Update README.md if installation steps change
-- Update CHANGELOG.md (if exists)
-- Follow semantic versioning
-- Tag releases appropriately
