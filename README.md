@@ -10,6 +10,9 @@
 - [Laravel Boost](https://github.com/laravel/boost) >= 2.0
 - [GitHub Copilot plugin](https://plugins.jetbrains.com/plugin/17718-github-copilot) installed in PhpStorm
 
+### Suggest
+- [laravel-copilot-sdk](https://github.com/invokable/laravel-copilot-sdk) Copilot SDK for Laravel
+
 ## Supported Platforms
 - macOS
 - Windows (Native Windows)
