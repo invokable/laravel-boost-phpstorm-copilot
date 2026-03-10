@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Laravel\Boost\Install\Detection\DetectionStrategyFactory;
+use Laravel\Boost\Install\Enums\Platform;
 use Revolution\Laravel\Boost\PhpStormCopilot;
 
 test('PhpStormCopilot returns correct name', function (): void {
@@ -30,7 +31,7 @@ test('PhpStormCopilot system detection config has paths for Darwin', function ()
     $strategyFactory = $this->mock(DetectionStrategyFactory::class);
     $phpStormCopilot = new PhpStormCopilot($strategyFactory);
 
-    $config = $phpStormCopilot->systemDetectionConfig(\Laravel\Boost\Install\Enums\Platform::Darwin);
+    $config = $phpStormCopilot->systemDetectionConfig(Platform::Darwin);
 
     expect($config)->toHaveKey('paths')
         ->and($config['paths'])->toContain('~/Library/Application Support/JetBrains/PhpStorm*/plugins/github-copilot-intellij');
@@ -40,7 +41,7 @@ test('PhpStormCopilot system detection config has paths for Windows', function (
     $strategyFactory = $this->mock(DetectionStrategyFactory::class);
     $phpStormCopilot = new PhpStormCopilot($strategyFactory);
 
-    $config = $phpStormCopilot->systemDetectionConfig(\Laravel\Boost\Install\Enums\Platform::Windows);
+    $config = $phpStormCopilot->systemDetectionConfig(Platform::Windows);
 
     expect($config)->toHaveKey('paths')
         ->and($config['paths'])->toContain('%LOCALAPPDATA%\\github-copilot\\intellij');
