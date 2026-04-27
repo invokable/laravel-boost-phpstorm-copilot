@@ -4,6 +4,8 @@
 
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/invokable/laravel-boost-phpstorm-copilot)
 
+Docs: [English](https://kawax.biz/en/packages/laravel-boost-phpstorm-copilot) [Japanese](https://kawax.biz/jp/packages/laravel-boost-phpstorm-copilot)
+
 ## Requirements
 - PHP >= 8.3
 - Laravel >= 12.x
